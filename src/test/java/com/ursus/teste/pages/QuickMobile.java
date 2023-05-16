@@ -55,7 +55,7 @@ public class QuickMobile extends PageObject {
         return find(By.cssSelector("#account_page > div.title-myinfo > h2"));
     }
     private WebElementFacade get_login_message_element_fail() {
-        return find(By.cssSelector("div.alert alert-with-icon alert-danger"));
+        return find(By.cssSelector("div.alert.alert-with-icon.alert-danger > b"));
     }
 
     public void open_shop_menu() {
