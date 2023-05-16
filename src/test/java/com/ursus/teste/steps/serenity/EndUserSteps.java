@@ -29,17 +29,25 @@ public class EndUserSteps {
 
     @Step
     public void insert_credentials() {
-        Tuple2<String, String> tuple = getCredentials();
+        Tuple2<String, String> tuple = getCredentials("src/test/resources/user.csv");
         assert tuple != null;
         String username = tuple.getFirst();
         String password = tuple.getSecond();
 
         quick_mobile_page.insert_credentials(username, password);
     }
+    @Step
+    public void insert_credentials_fail() {
+        Tuple2<String, String> tuple = getCredentials("src/test/resources/user_fail.csv");
+        assert tuple != null;
+        String username = tuple.getFirst();
+        String password = tuple.getSecond();
 
-    private Tuple2<String, String> getCredentials() {
+        quick_mobile_page.insert_credentials(username, password);
+    }
+    private Tuple2<String, String> getCredentials(String path) {
         try {
-            File myObj = new File("src/test/resources/user.csv");
+            File myObj = new File(path);
             Scanner myReader = new Scanner(myObj);
             if (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -67,7 +75,9 @@ public class EndUserSteps {
     public void check_logged_in() {
         assertEquals(quick_mobile_page.get_login_message(), "Bun venit, Rachiu!");
     }
-
+    public void check_logged_in_fail() {
+        ///assertEquals(quick_mobile_page.get_login_message_fail(), "Adresa ");
+    }
     public void search_drone() {
         quick_mobile_page.go_to_homepage();
         quick_mobile_page.open_shop_menu();
@@ -113,6 +123,12 @@ public class EndUserSteps {
         open_home_page();
         go_to_login_page();
         insert_credentials();
+        sign_in();
+    }
+    public void login_fail() {
+        open_home_page();
+        go_to_login_page();
+        insert_credentials_fail();
         sign_in();
     }
 
